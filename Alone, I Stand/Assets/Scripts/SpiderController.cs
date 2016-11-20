@@ -5,6 +5,7 @@ public class SpiderController : MonoBehaviour {
 
 	private Atributes spider;
 	public GameObject player;
+	public float speed, force;
 
 
 	// Use this for initialization
@@ -14,12 +15,16 @@ public class SpiderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		Quaternion rot = Quaternion.LookRotation (transform.position - player.transform.position  , Vector3.forward);
-		Debug.Log (player.transform.position);
-		transform.rotation = rot;
-		transform.eulerAngles = new Vector3 (0, 0, transform.eulerAngles.z);
-		GetComponent<Rigidbody2D>().angularVelocity = 0;
+		if (player != null) {
+			// Não entendi, mas é necessário o -10 no Z. Descobri atravez das coordenads do mouse que uso para
+			// rotacionar o personagem.
+			Quaternion rot = Quaternion.LookRotation (transform.position - new Vector3 (player.transform.position.x,
+				                player.transform.position.y, -10), Vector3.forward);
+			transform.rotation = rot;
+			transform.eulerAngles = new Vector3 (0, 0, transform.eulerAngles.z);
+			GetComponent<Rigidbody2D> ().angularVelocity = 0;
+			GetComponent<Rigidbody2D> ().AddForce (transform.up * speed * force);
+		}
 
 	}
 }
