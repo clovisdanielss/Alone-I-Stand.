@@ -10,12 +10,13 @@ public class RangeAggro : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(GetComponentInParent<EnemyController> ().target != null)
+			GetComponent<CircleCollider2D> ().enabled = false;
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == "Player") {
-			GetComponentInParent<SpiderController> ().player = col.gameObject;
+			GetComponentInParent<EnemyController> ().target = col.gameObject;
 			GetComponent<CircleCollider2D> ().enabled = false;
 		}
 	}

@@ -20,25 +20,38 @@ public class Atributes : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
-		if (tag == "Player" || (tag == "Enemy" && GetComponent<SpiderController>().player != null)) {
+		if (tag == "Player" || (tag == "Enemy" && GetComponent<EnemyController>().target != null)) {
 			if (coll.tag == "Tree" || coll.tag == "Player" || coll.tag == "Enemy") {
 				Atributes at = coll.GetComponentInParent<Atributes> ();
 				int totaldmg = at.defence - dmg;
 				if (totaldmg < 0) {
 					at.hp += totaldmg;
-					if (coll.tag == "Enemy")
+					if (coll.tag == "Enemy" || coll.tag == "Player")
 						coll.GetComponent<Rigidbody2D> ().AddForce (transform.up * knockback);
 				}
-				Debug.Log (at.hp);
 				if (at.hp <= 0)
 					Destroy (coll.gameObject);
 			}
-			if (tag == "Enemy" && (coll.tag == "Shield" || coll.tag == "Player")) {
-				GetComponent<Rigidbody2D> ().AddForce (-transform.up * knockback);
-				if (coll.tag == "Shield")
-					coll.GetComponentInParent<Animator> ().SetTrigger ("Block");
-				
+		}
+		if ((tag == "Shoot"|| tag == "Enemy") && (coll.tag == "Shield" || coll.tag == "Player")) {
+			GetComponent<Rigidbody2D> ().AddForce (-transform.up * knockback);
+			if (coll.tag == "Shield")
+				coll.GetComponentInParent<Animator> ().SetTrigger ("Block");
+
+		}
+		if (tag == "Shoot" && coll.gameObject.layer != 9){
+			Atributes at = coll.GetComponentInParent<Atributes> ();
+			int totaldmg = -dmg;
+			Debug.Log (at.hp);
+			if (totaldmg < 0) {
+				at.hp += totaldmg;
+				if (coll.tag == "Enemy") {
+					coll.GetComponentInParent<EnemyController> ().target = GetComponent<Shoot> ().shooter;
+				}
 			}
+			if (at.hp <= 0)
+				Destroy (coll.gameObject);
+			Destroy (gameObject);
 		}
 
 	}

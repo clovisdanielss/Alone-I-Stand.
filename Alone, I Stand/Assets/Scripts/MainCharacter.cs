@@ -6,6 +6,7 @@ public class MainCharacter : MonoBehaviour {
 	private Atributes character;
 	private Rigidbody2D controller;
 	private Animator animator;
+	private Spells spells;
 	public float speed;
 
 	// Use this for initialization
@@ -13,6 +14,8 @@ public class MainCharacter : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 		character = GetComponent<Atributes> ();
 		controller = GetComponent<Rigidbody2D> ();
+		spells = GetComponentInChildren<Spells> ();
+		Debug.Log (transform.position);
 	}
 	
 	// Update is called once per frame
@@ -34,7 +37,7 @@ public class MainCharacter : MonoBehaviour {
 
 		PlayerAttack ();
 		PlayerDefence ();
-
+		spells.MagicShoot ();
 
 	}
 
