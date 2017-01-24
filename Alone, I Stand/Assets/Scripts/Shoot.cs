@@ -16,6 +16,7 @@ public class Shoot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		bool toDestroy = false;
 		GetComponent<Rigidbody2D> ().velocity = transform.up * speed;
 		tag = shootertag;
 		if (x == a && x == b && x == y && y == a && y == b) {
@@ -25,12 +26,15 @@ public class Shoot : MonoBehaviour {
 		a = transform.position.x;
 		b = transform.position.y;
 		if (a > x && a - x > range)
-			Destroy (gameObject);
+			toDestroy = true;
 		if (a < x && x - a > range)
-			Destroy (gameObject);
+			toDestroy = true;
 		if (b > y && b - y > range)
-			Destroy (gameObject);
+			toDestroy = true;
 		if (b < y && y - b > range)
+			toDestroy = true;
+		if (toDestroy) {
 			Destroy (gameObject);
+		}
 	}
 }

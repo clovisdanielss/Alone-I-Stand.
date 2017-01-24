@@ -12,7 +12,7 @@ public class Tree : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (tree.hp < 5) {
+		if (tree.GetHp() < 5) {
 			GetComponent<SpriteRenderer> ().sprite = deadtree;
 		}
 			

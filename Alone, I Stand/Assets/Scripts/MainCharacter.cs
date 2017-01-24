@@ -11,11 +11,11 @@ public class MainCharacter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		character = GetComponent<Atributes> ();
 		animator = GetComponent<Animator> ();
 		character = GetComponent<Atributes> ();
 		controller = GetComponent<Rigidbody2D> ();
 		spells = GetComponentInChildren<Spells> ();
-		Debug.Log (transform.position);
 	}
 	
 	// Update is called once per frame
@@ -47,9 +47,11 @@ public class MainCharacter : MonoBehaviour {
 	}
 
 	public void PlayerDefence(){
-		if (Input.GetButtonDown ("Fire2"))
-			animator.SetBool ("Defence", true);
-		if(Input.GetButtonUp ("Fire2"))
+		if (character.GetShiHp () > 0) 
+			if (Input.GetButtonDown ("Fire2"))
+				animator.SetBool ("Defence", true);
+		if (Input.GetButtonUp ("Fire2") || character.GetShiHp () <= 0)
 			animator.SetBool ("Defence", false);
+		
 	}
 }
